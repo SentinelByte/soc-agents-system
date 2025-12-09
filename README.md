@@ -7,7 +7,7 @@ Designed for security engineers who want a small, modular, testable triage engin
 
 ---
 
-## Core Purpose
+### Core Purpose
 
 TriAgen automates early-stage alert triage:
 
@@ -20,7 +20,7 @@ TriAgen automates early-stage alert triage:
 
 ---
 
-## System Overview
+### System Overview
 
 ***Alert → Alert Processor → Enrichment Engine → Reasoning Agent → Response Recommender → Output + Audit Logs***
 
@@ -40,7 +40,6 @@ Runs local checks such as:
 * Compute file hashes
 * Review recent logs
 * Search for related activity
-* YARA scanning (optional)
 * Persistence checks
   Returns structured JSON.
 
@@ -73,11 +72,11 @@ Stores:
 
 ---
 
-## Supported Input Methods
+### Supported Input Methods
 
 TriAgen can receive alerts in **three ways**:
 
-### A. File-Based Input
+**A. File-Based Input**
 
 Useful for batch testing.
 
@@ -85,7 +84,7 @@ Useful for batch testing.
 triagen --alert-file ./alerts/sample_alert.json
 ```
 
-### B. CLI / Script Input
+**B. CLI / Script Input**
 
 Useful for manual or automated pipelines.
 
@@ -95,7 +94,7 @@ triagen --alert '{ "alert_type": "process_start", "user": "alice", ... }'
 
 We accept either raw JSON or a file path.
 
-### C. Local REST API (Optional)
+**C. Local REST API (Optional)**
 
 Useful for integrating with SIEM/SOAR or other tools.
 
@@ -121,7 +120,7 @@ API returns the full triage result.
 
 ---
 
-## Minimal Alert Format
+### Minimal Alert Format
 
 TriAgen expects at least:
 
@@ -140,7 +139,7 @@ Fields may vary by alert type.
 
 ---
 
-## Output Format
+### Output Format
 
 TriAgen produces:
 
@@ -173,7 +172,7 @@ Confidence: 92%
 
 ---
 
-## Execution Flow
+### Execution Flow
 
 1. Receive alert
 2. Normalize alert
@@ -181,50 +180,9 @@ Confidence: 92%
 4. Analyze findings
 5. Produce triage output
 6. Store logs
-7. (Optional) Simulate response actions
+7. SUggest possible mitigations
 
 ---
 
-## Local Testing Features
-
-TriAgen supports local testing through:
-
-* Synthetic alerts
-* Controlled malicious commands
-* Controlled file drops
-* Fake C2 traffic
-* Docker-based attacker simulations
-
-Everything stays local and isolated.
-
----
-
-## Project Roadmap
-
-* Add more enrichment modules
-* Add Windows/Mac support
-* Add IOC matching
-* Add more MITRE mappings
-* Add optional integrations with SIEM/SOAR
-* Add optional automatic response modules
-
----
-
-## Folder Structure
-
-```
-triagen/
-├─ triagen_core/
-│  ├─ alert_processor/
-│  ├─ enrichment/
-│  ├─ reasoning/
-│  ├─ responder/
-│  ├─ audit/
-├─ api/
-├─ cli/
-├─ tests/
-└─ examples/
-```
-
-### *SentinelByte | AI Agent | 2025*
+*SentinelByte | AI Agent | 2025*
 ---
