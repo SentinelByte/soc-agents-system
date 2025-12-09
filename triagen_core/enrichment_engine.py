@@ -1,50 +1,37 @@
-import re
 from typing import Dict, Any
+import re
+
+# Enrichment modules (from dir: /enrichments)
+from .enrichments.file_paths import contains_sensitive_path
+from .enrichments.network_tools import executes_network_tools
+from .enrichments.time_heuristics import is_off_hours
+from .enrichments.command_flags import scan_command_flags
+from .enrichments.ip_extractor import extract_ip
+from .enrichments.user_privilege import is_privileged_user
+from .enrichments.hostname_check import is_server_name
 
 def enrich_alert(alert: Dict[str, Any]) -> Dict[str, Any]:
-    '''
-    Enriches a normalized alert with basic metadata and heuristic flags.
-    This is a lightweight enrichment step for local processing.
-    '''
-
+    """
+    Enriches a normalized alert with metadata and heuristic flags.
+    Lightweight enrichment step for local processing.
+    """
     enriched = alert.copy()
     details = enriched.get("details", {})
 
-    ## Enrich with command indicators
+    # Command-based enrichment
     if "command" in details:
         cmd = details["command"]
-
         enriched["command_length"] = len(cmd)
-        enriched["contains_suspicious_flags"] = _scan_command_flags(cmd)
-        enriched["contains_ip_address"] = _extract_ip(cmd)
+        enriched["contains_suspicious_flags"] = scan_command_flags(cmd)
+        enriched["contains_ip_address"] = extract_ip(cmd)
+        enriched["references_sensitive_path"] = contains_sensitive_path(cmd)
+        enriched["executes_network_tool"] = executes_network_tools(cmd)
 
-    ## Enrich with user-related heuristics
-    enriched["user_is_privileged"] = _is_privileged_user(enriched.get("user"))
+    # User and hostname heuristics
+    enriched["user_is_privileged"] = is_privileged_user(enriched.get("user"))
+    enriched["hostname_is_server"] = is_server_name(enriched.get("hostname"))
 
-    ## Enrich with hostname heuristics
-    enriched["hostname_is_server"] = _is_server_name(enriched.get("hostname"))
+    # Time-based enrichment
+    enriched["occurred_off_hours"] = is_off_hours(enriched.get("timestamp", ""))
 
     return enriched
-
-## Internal helpers
-def _scan_command_flags(cmd: str) -> bool:
-    '''Detects potentially risky flags in a command string.'''
-    suspicious_patterns = ["-e", "--exec", "--interactive", "-i", "-f"]
-    return any(flag in cmd for flag in suspicious_patterns)
-
-def _extract_ip(text: str) -> str:
-    '''Extracts first IPv4 address from text, returns empty string if none.'''
-    pattern = r"\b(?:\d{1,3}\.){3}\d{1,3}\b"
-    match = re.search(pattern, text)
-    return match.group(0) if match else ""
-
-def _is_privileged_user(user: str) -> bool:
-    privileged = ["root", "administrator", "system", "admin"]
-    if not user:
-        return False
-    return user.lower() in privileged
-
-def _is_server_name(hostname: str) -> bool:
-    if not hostname:
-        return False
-    return any(x in hostname.lower() for x in ["srv", "server", "prd", "prod"])
