@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "triagen"
+version = "0.1.0"
+description = "Local-first SOC alert triage agent with a prompt-injection-aware AI reasoning engine"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "Dan Cohen" }]
+dependencies = []
+
+[project.optional-dependencies]
+llm = ["anthropic>=0.40.0"]
+dev = ["pytest>=8.0", "ruff>=0.6", "bandit>=1.7"]
+
+[project.scripts]
+triagen = "triagen_core.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["triagen_core*"]
+
+[tool.ruff]
+line-length = 110
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
