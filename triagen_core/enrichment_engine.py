@@ -1,16 +1,17 @@
-from typing import Dict, Any
-import re
+from typing import Any
+
+from .enrichments.command_flags import scan_command_flags
 
 ## Enrichments modules (from dir: /enrichments)
 from .enrichments.file_paths import contains_sensitive_path
+from .enrichments.hostname_check import is_server_name
+from .enrichments.ip_extractor import extract_ip
 from .enrichments.network_tools import executes_network_tools
 from .enrichments.time_heuristics import is_off_hours
-from .enrichments.command_flags import scan_command_flags
-from .enrichments.ip_extractor import extract_ip
 from .enrichments.user_privilege import is_privileged_user
-from .enrichments.hostname_check import is_server_name
 
-def enrich_alert(alert: Dict[str, Any]) -> Dict[str, Any]:
+
+def enrich_alert(alert: dict[str, Any]) -> dict[str, Any]:
     '''
     Enriches a normalized alert with metadata and heuristic flags.
     Lightweight enrichment step for local processing.

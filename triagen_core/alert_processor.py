@@ -12,7 +12,7 @@ Responsible for:
    - unknown
 '''
 
-from typing import Dict, Any
+from typing import Any
 
 ## Minimal required fields
 REQUIRED_FIELDS = [
@@ -24,7 +24,7 @@ REQUIRED_FIELDS = [
 
 
 ## Validation
-def validate_alert(alert: Dict[str, Any]):
+def validate_alert(alert: dict[str, Any]):
     missing = [key for key in REQUIRED_FIELDS if key not in alert]
 
     if missing:
@@ -33,7 +33,7 @@ def validate_alert(alert: Dict[str, Any]):
     return True
 
 ## Normalization
-def normalize_alert(alert: Dict[str, Any]) -> Dict[str, Any]:
+def normalize_alert(alert: dict[str, Any]) -> dict[str, Any]:
     '''
     Ensures all expected keys exist and are well-formed.
     Fills optional structures with empty defaults if missing.
@@ -49,7 +49,7 @@ def normalize_alert(alert: Dict[str, Any]) -> Dict[str, Any]:
 
 
 ## Routing / Classification
-def classify_alert(alert: Dict[str, Any]) -> str:
+def classify_alert(alert: dict[str, Any]) -> str:
     '''
     Decide what type of investigation this alert should follow.
     '''
@@ -72,7 +72,7 @@ def classify_alert(alert: Dict[str, Any]) -> str:
     return "unknown"
 
 ## Main function used by triage_pipeline()
-def process_alert(alert: Dict[str, Any]) -> Dict[str, Any]:
+def process_alert(alert: dict[str, Any]) -> dict[str, Any]:
     '''
     Full alert processing pipeline:
     - validate
