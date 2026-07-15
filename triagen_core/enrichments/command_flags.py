@@ -1,5 +1,6 @@
 import platform
 
+
 def scan_command_flags(cmd: str, os_type: str = None) -> bool:
     '''
     Detect suspicious command flags based on OS.
@@ -19,7 +20,10 @@ def scan_command_flags(cmd: str, os_type: str = None) -> bool:
 
     windows_flags = ["/c", "/r", "/f", "/s", "/u", "/p", "-enc", "-noni", "-nop", "-w hidden"]
 
-    linux_flags = ["-e", "-i", "-f", "--exec", "--interactive", "--force", "--bypass-security", "--no-sandbox", "-shell", "--shell", "--command"]
+    linux_flags = [
+        "-e", "-i", "-f", "--exec", "--interactive", "--force",
+        "--bypass-security", "--no-sandbox", "-shell", "--shell", "--command",
+    ]
 
     macos_flags = ["-e", "-i", "--exec", "--interactive", "--no-quarantine", "-stdin", "--force"]
 
