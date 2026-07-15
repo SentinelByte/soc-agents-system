@@ -1,22 +1,20 @@
 # Security Policy
 
-TriAgen is a portfolio / research project demonstrating AI-security
-engineering patterns for SOC alert triage. It is **not hardened for
-production use as-is** — in particular, review `triagen_core/guardrails/`
-and the trust-boundary design in `triagen_core/reasoning_engine.py` yourself
-before pointing the optional LLM backend at any real environment.
+TriAgen is a portfolio project, not a production tool. If you're going to point
+the optional LLM backend at anything real, read through
+`triagen_core/guardrails/` and the trust-boundary logic in
+`triagen_core/reasoning_engine.py` first. Don't assume it's hardened just
+because "security" is in the description.
 
 ## Scope
 
-This project's threat model is: an alert pipeline that ingests untrusted,
-potentially attacker-controlled text (raw logs, command lines) and must
-reason over it without that content being able to influence its own
-control flow or verdict. See the README's "Security Design" section for
-details.
+The threat model here is narrow on purpose: the pipeline ingests untrusted,
+possibly attacker-written text (raw logs, command lines), and it has to reason
+about that text without letting the text steer its own conclusions. That's the
+whole game. See the README's "Security design" section for how it's done.
 
 ## Reporting a vulnerability
 
-If you find a security issue in this repository — a prompt-injection
-bypass, an enrichment heuristic that's trivially evadable, a dependency
-CVE, or anything else — please open a GitHub issue on this repository.
-This is a personal project; there is no bug bounty.
+Found a way around the guardrail, an enrichment heuristic that's trivial to
+evade, or a bad dependency? Open an issue on this repo. It's a personal
+project, so there's no bounty, just my thanks for the catch.
